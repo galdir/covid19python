@@ -314,7 +314,19 @@ app.layout = html.Div(className='container', children=[
                 )
             ])
         ])
-    ])
+    ]),
+    html.Div(children=[
+        html.P(children=[
+            'Produzido por ',
+            html.A(children='Galdir Reges',href='https://galdir.github.io/')
+            ]),
+
+        html.P(children=[
+            'Dados de ',
+            html.A(children='Wesley Cota',href="https://covid19br.wcota.me/")
+        ]),
+    ]),
+
 
 ])
 # deaths_per_100k_inhabitants
