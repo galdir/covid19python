@@ -6,7 +6,9 @@ import pandas as pd
 import numpy as np
 import datetime
 
+
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
 
 # external CSS stylesheets
 external_stylesheets = [
@@ -16,7 +18,7 @@ external_stylesheets = [
         'rel': 'stylesheet',
         'integrity': 'sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO',
         'crossorigin': 'anonymous'
-    }
+    },
 ]
 
 # casosbrstates = pd.read_csv("cases-brazil-states.csv")
@@ -24,10 +26,15 @@ external_stylesheets = [
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
+
 # df = pd.read_csv('https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
 df = pd.read_csv(
     'https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv')
 # date,country,state,city,newDeaths,deaths,newCases,totalCases,deathsMS,totalCasesMS,deaths_per_100k_inhabitants,totalCases_per_100k_inhabitants,deaths_by_totalCases,recovered
+
+dfLeitosBahia = pd.read_csv(
+    'leitos-exclusivos-covid-ba.csv')
+
 
 # df=df.drop(df[df.date=='2020-04-29'].index)
 
@@ -196,7 +203,52 @@ app.layout = html.Div(className='container', children=[
                 )
             ])
         ]),
+        html.Div(className='row', children=[
+            html.Div(className='col-sm', children=[
+                html.H2('Leitos exclusivos para COVID19 na Bahia',
+                        className='center'),
+                html.P('Segundo a Secretaria de Saúde da Bahia, o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.'),
+                dcc.Graph(
+                    id='leitosUTIBahia',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfLeitosBahia['data'],
+                                y=dfLeitosBahia['uti ocupadas'],
+                                name='UTIs ocupadas'
+                            ),
+                            dict(
+                                x=dfLeitosBahia['data'],
+                                y=dfLeitosBahia['utis totais'],
+                                name='UTIs totais'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={
+                                'type': 'line',
+                                'title': 'data',
+                                # 'range':[umMesAtras,today]
+                            },
+                            yaxis={
+                                'title': 'UTIs',
+                                # 'range': [0, df.query("state=='BA'")['deaths'].max()],
+                            },
+                            title='UTIs exclusivas para COVID19 na Bahia',
+
+                            # hovermode='closest'
+                        )
+                    }
+                )
+            ]),
+
+        ]),
+
+
+
     ]),
+
+
+
     html.Div(className='container', children=[
         html.H2('Comparação Entre Estados do Brasil', className='text-center'),
         html.Div(className='row', children=[
@@ -206,31 +258,43 @@ app.layout = html.Div(className='container', children=[
                     figure={
                         'data': [
                             dict(
-                                # x=df[df['continent'] == i]['gdp per capita'],
-                                x=df[df['state'] == i]['date'],
-                                y=df[df['state'] == i]['rateNewCases'].rolling(
-                                    window=5).mean(),
-                                # text=df[df['state'] == i]['state'],
-                                # mode='markers',
-                                # opacity=0.7,
-                                # marker={
-                                #    'size': 15,
-                                #    'line': {'width': 0.5, 'color': 'white'}
-                                # },
-                                name=i
-                            ) for i in statesClean
+                                x=statesClean,
+                                y=[
+                                    (
+                                        df[df['state'] == i]['rateNewCases'].rolling(
+                                            window=5).mean().tail(1).tolist()[0]
+                                    ) for i in statesClean
+                                ],
+                                type='bar',
+                                name='taxa dos estados'
+                            )
+
+                            # dict(
+                            # x=df[df['continent'] == i]['gdp per capita'],
+                            #x=df[df['state'] == i]['date'],
+                            # y=df[df['state'] == i]['rateNewCases'].rolling(
+                            #    window=5).mean(),
+                            # text=df[df['state'] == i]['state'],
+                            # mode='markers',
+                            # opacity=0.7,
+                            # marker={
+                            #    'size': 15,
+                            #    'line': {'width': 0.5, 'color': 'white'}
+                            # },
+                            # name=i
+                            # ) for i in statesClean
                         ],
                         'layout': dict(
                             xaxis={
-                                'type': 'line',
-                                'title': 'data',
-                                'range': [umMesAtras, today]
+                                'type': 'bar',
+                                'title': 'Estados',
+                                # 'range': [umMesAtras, today]
                             },
                             yaxis={
                                 'title': 'taxa (%)',
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
-                            title='Média Móvel de 5 dias da Taxa de Novos Casos por Dia',
+                            title='Média dos Últimos 5 dias da Taxa de Novos Casos por Dia',
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             # legend={'x': 0, 'y': 1},
                             hovermode='closest'
@@ -245,9 +309,15 @@ app.layout = html.Div(className='container', children=[
                         'data': [
                             dict(
                                 # x=df[df['continent'] == i]['gdp per capita'],
-                                x=df[df['state'] == i]['date'],
-                                y=df[df['state'] == i]['rateNewDeaths'].rolling(
-                                    window=5).mean(),
+                                x=statesClean,
+                                y=[
+                                    (
+                                        df[df['state'] == i]['rateNewDeaths'].rolling(
+                                            window=5).mean().tail(1).tolist()[0]
+                                    ) for i in statesClean
+                                ],
+                                type='bar',
+                                name='taxa dos estados',
                                 # text=df[df['state'] == i]['state'],
                                 # mode='markers',
                                 # opacity=0.7,
@@ -255,8 +325,7 @@ app.layout = html.Div(className='container', children=[
                                 #    'size': 15,
                                 #    'line': {'width': 0.5, 'color': 'white'}
                                 # },
-                                name=i
-                            ) for i in statesClean
+                            )
                         ],
                         'layout': dict(
                             xaxis={
@@ -266,10 +335,10 @@ app.layout = html.Div(className='container', children=[
                             },
                             yaxis={
                                 'title': 'taxa (%)',
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
-                            title='Média Móvel de 5 dias da Taxa de Novos Casos por Dia',
+                            title='Média Móvel de 5 dias da Taxa de Novas Mortes por Dia',
                             # legend={'x': 0, 'y': 1},
                             hovermode='closest'
                         )
@@ -286,8 +355,7 @@ app.layout = html.Div(className='container', children=[
                             dict(
                                 # x=df[df['continent'] == i]['gdp per capita'],
                                 x=df[df['state'] == i]['date'],
-                                y=df[df['state'] ==
-                                     i]['deaths_per_100k_inhabitants'],
+                                y=df[df['state'] == i]['deaths_per_100k_inhabitants'],
                                 # text=df[df['state'] == i]['state'],
                                 # mode='markers',
                                 # opacity=0.7,
@@ -318,12 +386,16 @@ app.layout = html.Div(className='container', children=[
     html.Div(children=[
         html.P(children=[
             'Produzido por ',
-            html.A(children='Galdir Reges',href='https://galdir.github.io/')
-            ]),
+            html.A(children='Galdir Reges', href='https://galdir.github.io/')
+        ]),
 
         html.P(children=[
             'Dados de ',
-            html.A(children='Wesley Cota',href="https://covid19br.wcota.me/")
+            html.A(children='Wesley Cota', href="https://covid19br.wcota.me/"),
+            ' e ',
+            html.A(children='Secretaria de Saúde da Bahia',
+                   href="http://www.saude.ba.gov.br/"),
+
         ]),
     ]),
 
