@@ -18,7 +18,7 @@ external_stylesheets = [
         'rel': 'stylesheet',
         'integrity': 'sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO',
         'crossorigin': 'anonymous'
-    },
+    }
 ]
 
 # casosbrstates = pd.read_csv("cases-brazil-states.csv")
@@ -205,9 +205,15 @@ app.layout = html.Div(className='container', children=[
         ]),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
-                html.H2('Leitos exclusivos para COVID19 na Bahia',
-                        className='center'),
-                html.P('Segundo a Secretaria de Saúde da Bahia, o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.'),
+                html.H2('UTIs exclusivas para COVID19 na Bahia',
+                        className='text-center'),
+                html.P(
+                    '''
+                    Esse números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB). 
+                    Quando o número não foi divulgado, nós repetimos o número anterior. 
+                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
+                '''
+                ),
                 dcc.Graph(
                     id='leitosUTIBahia',
                     figure={
@@ -233,7 +239,8 @@ app.layout = html.Div(className='container', children=[
                                 'title': 'UTIs',
                                 # 'range': [0, df.query("state=='BA'")['deaths'].max()],
                             },
-                            title='UTIs exclusivas para COVID19 na Bahia',
+                            margin={'t': 20},
+                            #title='UTIs exclusivas para COVID19 na Bahia',
 
                             # hovermode='closest'
                         )
@@ -287,7 +294,7 @@ app.layout = html.Div(className='container', children=[
                         'layout': dict(
                             xaxis={
                                 'type': 'bar',
-                                'title': 'Estados',
+                                'title': 'Estado',
                                 # 'range': [umMesAtras, today]
                             },
                             yaxis={
@@ -330,8 +337,8 @@ app.layout = html.Div(className='container', children=[
                         'layout': dict(
                             xaxis={
                                 'type': 'line',
-                                'title': 'data',
-                                'range': [umMesAtras, today]
+                                'title': 'Estado',
+                                #'range': [umMesAtras, today]
                             },
                             yaxis={
                                 'title': 'taxa (%)',
