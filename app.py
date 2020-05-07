@@ -391,7 +391,7 @@ app.layout = html.Div(className='container', children=[
                                 'title': 'taxa (%)',
                                 #'range': [0, 50]
                             },
-                            margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
+                            margin={'l': 40, 'b': 80, 't': 40, 'r': 40},
                             #title='Média Móvel de 5 dias da Taxa de Novas Mortes por Dia',
                             # legend={'x': 0, 'y': 1},
                             #hovermode='closest'
