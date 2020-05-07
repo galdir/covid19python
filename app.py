@@ -121,7 +121,7 @@ app.layout = html.Div(className='container', children=[
                             },
                             #title='Total de Casos na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 80},
-                            # hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
@@ -161,7 +161,7 @@ app.layout = html.Div(className='container', children=[
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
                             legend={'x': 1, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 80},
-                            # hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
@@ -193,7 +193,7 @@ app.layout = html.Div(className='container', children=[
                             #title='Total de Mortes na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 80},
 
-                            # hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
@@ -234,9 +234,9 @@ app.layout = html.Div(className='container', children=[
                                 'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novas Mortes na Bahia',
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            #legend={'x': 1, 'xanchor': 'center', 'yanchor':'top', 'y': 0.5},
                             margin={'l':40,'b':80,'r':40,'t': 80},
-                            # hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
@@ -281,11 +281,11 @@ app.layout = html.Div(className='container', children=[
                             },
                             #margin={'t': 20},
                             #legend={'x': 0, 'y': 1},
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'center', 'yanchor':'center','y': 0.5},
                             margin={'l':40,'b':80,'r':40,'t': 80},
                             #title='UTIs exclusivas para COVID19 na Bahia',
 
-                            # hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
@@ -348,7 +348,7 @@ app.layout = html.Div(className='container', children=[
                             #title='Média dos Últimos 5 dias da Taxa de Novos Casos por Dia',
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             # legend={'x': 0, 'y': 1},
-                            #hovermode='closest',
+                            hovermode='closest',
                             margin={'l':40,'b':80,'r':40,'t': 80},
                         )
                     }
@@ -394,7 +394,7 @@ app.layout = html.Div(className='container', children=[
                             margin={'l': 40, 'b': 80, 't': 40, 'r': 40},
                             #title='Média Móvel de 5 dias da Taxa de Novas Mortes por Dia',
                             # legend={'x': 0, 'y': 1},
-                            #hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 ),
@@ -431,7 +431,7 @@ app.layout = html.Div(className='container', children=[
                             margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             #title='Mortes por 100k habitantes',
                             # legend={'x': 0, 'y': 1},
-                            #hovermode='closest'
+                            hovermode='closest'
                         )
                     }
                 )
