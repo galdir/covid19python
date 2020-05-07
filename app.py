@@ -235,6 +235,7 @@ app.layout = html.Div(className='container', children=[
                             },
                             #title='Taxa de Crescimento de Novas Mortes na Bahia',
                             #legend={'x': 1, 'xanchor': 'center', 'yanchor':'top', 'y': 0.5},
+                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 80},
                             hovermode='closest'
                         )
