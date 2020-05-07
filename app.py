@@ -120,7 +120,7 @@ app.layout = html.Div(className='container', children=[
                                 'range': [0, df.query("state=='BA'")['totalCases'].max()],
                             },
                             #title='Total de Casos na Bahia',
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
                     }
@@ -160,7 +160,7 @@ app.layout = html.Div(className='container', children=[
                             },
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
                             legend={'x': 1, 'xanchor': 'right', 'y': 1},
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
                     }
@@ -191,7 +191,7 @@ app.layout = html.Div(className='container', children=[
                                 'range': [0, df.query("state=='BA'")['deaths'].max()],
                             },
                             #title='Total de Mortes na Bahia',
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
 
                             hovermode='closest'
                         )
@@ -236,7 +236,7 @@ app.layout = html.Div(className='container', children=[
                             #title='Taxa de Crescimento de Novas Mortes na Bahia',
                             #legend={'x': 1, 'xanchor': 'center', 'yanchor':'top', 'y': 0.5},
                             legend={'x': 1, 'xanchor': 'right', 'y': 1},
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
                     }
@@ -283,7 +283,7 @@ app.layout = html.Div(className='container', children=[
                             #margin={'t': 20},
                             #legend={'x': 0, 'y': 1},
                             legend={'x': 0.5, 'xanchor': 'center', 'yanchor':'center','y': 0.5},
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
                             #title='UTIs exclusivas para COVID19 na Bahia',
 
                             hovermode='closest'
@@ -350,7 +350,7 @@ app.layout = html.Div(className='container', children=[
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             # legend={'x': 0, 'y': 1},
                             hovermode='closest',
-                            margin={'l':40,'b':80,'r':40,'t': 80},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
                         )
                     }
                 )
@@ -410,8 +410,14 @@ app.layout = html.Div(className='container', children=[
                         'data': [
                             dict(
                                 # x=df[df['continent'] == i]['gdp per capita'],
-                                x=df[df['state'] == i]['date'],
-                                y=df[df['state'] == i]['deaths_per_100k_inhabitants'],
+                                #x=df[df['state'] == i]['date'],
+                                x=statesClean,
+                                y=[
+                                    (
+                                        df[df['state'] == i]['deaths_per_100k_inhabitants'].tail(1).tolist()[0]
+                                    ) for i in statesClean
+                                ],
+                                #y=df[df['state'] == i]['deaths_per_100k_inhabitants'].tail(1),
                                 # text=df[df['state'] == i]['state'],
                                 # mode='markers',
                                 # opacity=0.7,
@@ -419,8 +425,10 @@ app.layout = html.Div(className='container', children=[
                                 #    'size': 15,
                                 #    'line': {'width': 0.5, 'color': 'white'}
                                 # },
-                                name=i
-                            ) for i in statesClean
+                                #name=i,
+                                type='bar',
+                                #orientation='h'
+                            ) #for i in statesClean
                         ],
                         'layout': dict(
                             xaxis={
@@ -429,7 +437,7 @@ app.layout = html.Div(className='container', children=[
                                 'range': [umMesAtras, today]
                             },
                             yaxis={'title': 'Mortes por 100k habitantes'},
-                            margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
+                            margin={'l': 40, 'b': 80, 't': 40, 'r': 40},
                             #title='Mortes por 100k habitantes',
                             # legend={'x': 0, 'y': 1},
                             hovermode='closest'
