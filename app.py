@@ -1,3 +1,6 @@
+
+
+
 # -*- coding: utf-8 -*-
 import dash
 import dash_core_components as dcc
@@ -6,6 +9,39 @@ import pandas as pd
 import numpy as np
 import datetime
 
+
+class Dash_responsive(dash.Dash):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    #Overriding from https://github.com/plotly/dash/blob/master/dash/dash.py#L282
+    def index(self, *args, **kwargs):
+        scripts = self._generate_scripts_html()
+        css = self._generate_css_dist_html()
+        config = self._generate_config_html()
+        title = getattr(self, 'title', 'Dash')
+        return ('''
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                <title>{}</title>
+                {}
+            </head>
+            <body>
+                <div id="react-entry-point">
+                    <div class="_dash-loading">
+                        Loading...
+                    </div>
+                </div>
+            </body>
+            <footer>
+                {}
+                {}
+            </footer>
+        </html>
+        '''.format(title, css, config, scripts))
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -209,8 +245,8 @@ app.layout = html.Div(className='container', children=[
                         className='text-center'),
                 html.P(
                     '''
-                    Esse números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB). 
-                    Quando o número não foi divulgado, nós repetimos o número anterior. 
+                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
+                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
                     Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
                 '''
                 ),
