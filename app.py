@@ -69,6 +69,7 @@ df = pd.read_csv(
 dfLeitosBahia = pd.read_csv(
     'leitos-exclusivos-covid-ba.csv')
 
+dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 
 # df=df.drop(df[df.date=='2020-04-29'].index)
 
@@ -96,13 +97,16 @@ for s in states:
 df["rateNewDeaths"] = (df.newDeaths/df.deaths)*100
 df["rateNewCases"] = (df.newCases/df.totalCases)*100
 
+dfCities["rateNewCases"]=(dfCities.newCases/dfCities.totalCases)*100
+dfCities["rateNewDeaths"]=(dfCities.newDeaths/dfCities.deaths)*100
+
 today = datetime.datetime.now()
 umMesAtras = datetime.datetime(today.year, today.month-1, today.day)
 
 app.layout = html.Div(className='container', children=[
-    html.H1('Monitoramento de COVID19', className='text-center'),
+    html.H1('Monitoramento de COVID19', className='text-center display-1'),
     html.Div(className='container', children=[
-        html.H2('Casos na Bahia', className='text-center'),
+        html.H2('Casos na Bahia', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
                 html.H3('Total de Casos na Bahia',className='text-center'),
@@ -300,11 +304,148 @@ app.layout = html.Div(className='container', children=[
 
 
     ]),
+    html.Div(className='container', children=[
+        html.H2('Casos em Salvador', className='text-center bg-secondary text-white display-3'),
+        html.Div(className='row', children=[
+            html.Div(className='col-sm', children=[
+                html.H3('Total de casos em Salvador',className='text-center'),
+                dcc.Graph(
+                    id='totCasesSalvador',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['totalCases'],
+                                name='Acumulado Salvador'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={'type': 'line', 'title': 'data'},
+                            yaxis={
+                                'title': 'casos',
+                                'range': [0, dfCities.query("city=='Salvador/BA'")['totalCases'].max()],
+                            },
+                            #title='Total de Casos na Bahia',
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            hovermode='closest'
+                        )
+                    }
+                )
+            ]),
+            html.Div(className='col-sm', children=[
+                html.H3('Taxa de Crescimento de Novos Casos em Salvador',className='text-center'),
+                dcc.Graph(
+                    id='rateNewCasesSalvador',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                # newCases is collumn 6
+
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewCases'],
+                                name='Taxa de Novos Casos',
+                                type='bar'
+                            ),
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                # newCases is collumn 6
+
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewCases'].rolling(
+                                    window=5).mean(),
+                                name='Média Movel de 5 Dias',
+                                type='line'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={'type': 'line', 'title': 'data',
+                                   'range': [umMesAtras, today]},
+                            yaxis={
+                                'title': 'taxa (%)',
+                                # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
+                                'range': [0, 50]
+                            },
+                            #title='Taxa de Crescimento de Novos Casos na Bahia',
+                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            hovermode='closest'
+                        )
+                    }
+                ),
+            ]),
+        ]),
+        html.Div(className='row', children=[
+            html.Div(className='col-sm', children=[
+                html.H3('Total de Mortes em Salvador',className='text-center'),
+                dcc.Graph(
+                    id='totMortesSalvador',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['deaths'],
+                                name='Acumulado Salvador'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={'type': 'line', 'title': 'data'},
+                            yaxis={
+                                'title': 'casos',
+                                'range': [0, dfCities.query("city=='Salvador/BA'")['deaths'].max()],
+                            },
+                            #title='Total de Casos na Bahia',
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            hovermode='closest'
+                        )
+                    }
+                )
+            ]),
+            html.Div(className='col-sm', children=[
+                html.H3('Taxa de Crescimento de Novas Mortes em Salvador',className='text-center'),
+                dcc.Graph(
+                    id='rateNewDeathsSalvador',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                # newCases is collumn 6
+
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewDeaths'],
+                                name='Taxa de Novos Casos',
+                                type='bar'
+                            ),
+                            dict(
+                                x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
+                                # newCases is collumn 6
+
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewDeaths'].rolling(
+                                    window=5).mean(),
+                                name='Média Movel de 5 Dias',
+                                type='line'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={'type': 'line', 'title': 'data',
+                                   'range': [umMesAtras, today]},
+                            yaxis={
+                                'title': 'taxa (%)',
+                                # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
+                                'range': [0, 50]
+                            },
+                            #title='Taxa de Crescimento de Novos Casos na Bahia',
+                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            hovermode='closest'
+                        )
+                    }
+                ),
+            ]),
+        ]),
+    ]),
 
 
 
     html.Div(className='container', children=[
-        html.H2('Comparação Entre Estados do Brasil', className='text-center'),
+        html.H2('Comparação Entre Estados do Brasil', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
                 html.H3('Média dos últimos 5 dias da Taxa de Novos Casos por Dia',className='text-center'),
