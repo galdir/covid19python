@@ -10,39 +10,6 @@ import numpy as np
 import datetime
 
 
-class Dash_responsive(dash.Dash):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    #Overriding from https://github.com/plotly/dash/blob/master/dash/dash.py#L282
-    def index(self, *args, **kwargs):
-        scripts = self._generate_scripts_html()
-        css = self._generate_css_dist_html()
-        config = self._generate_config_html()
-        title = getattr(self, 'title', 'Dash')
-        return ('''
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <meta charset="UTF-8"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <title>{}</title>
-                {}
-            </head>
-            <body>
-                <div id="react-entry-point">
-                    <div class="_dash-loading">
-                        Loading...
-                    </div>
-                </div>
-            </body>
-            <footer>
-                {}
-                {}
-            </footer>
-        </html>
-        '''.format(title, css, config, scripts))
-
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 
@@ -59,7 +26,35 @@ external_stylesheets = [
 
 # casosbrstates = pd.read_csv("cases-brazil-states.csv")
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
+meta_tags=[
+    # A description of the app, used by e.g.
+    # search engines when displaying search results.
+    {
+        'name': 'description',
+        'content': 'My description'
+    },
+    # A tag that tells Internet Explorer (IE)
+    # to use the latest renderer version available
+    # to that browser (e.g. Edge)
+    {
+        'http-equiv': 'X-UA-Compatible',
+        'content': 'IE=edge'
+    },
+    # A tag that tells the browser not to scale
+    # desktop widths to fit mobile screens.
+    # Sets the width of the viewport (browser)
+    # to the width of the device, and the zoom level
+    # (initial scale) to 1.
+    #
+    # Necessary for "true" mobile support.
+    {
+      'name': 'viewport',
+      'content': 'width=device-width, initial-scale=1, shrink-to-fit=no'
+    }
+]
+
+)
 server = app.server
 
 
