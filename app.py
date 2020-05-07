@@ -102,6 +102,7 @@ app.layout = html.Div(className='container', children=[
         html.H2('Casos na Bahia', className='text-center'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
+                html.H3('Total de Casos na Bahia',className='text-center'),
                 dcc.Graph(
                     id='casosBahia',
                     figure={
@@ -118,7 +119,7 @@ app.layout = html.Div(className='container', children=[
                                 'title': 'casos',
                                 'range': [0, df.query("state=='BA'")['totalCases'].max()],
                             },
-                            title='Total de Casos na Bahia',
+                            #title='Total de Casos na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 80},
                             # hovermode='closest'
                         )
@@ -126,6 +127,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
+                html.H3('Taxa de Crescimento de Novos Casos na Bahia',className='text-center'),
                 dcc.Graph(
                     id='taxaNovosCasosBahia',
                     figure={
@@ -156,7 +158,7 @@ app.layout = html.Div(className='container', children=[
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
                                 'range': [0, 50]
                             },
-                            title='Taxa de Crescimento de Novos Casos na Bahia',
+                            #title='Taxa de Crescimento de Novos Casos na Bahia',
                             legend={'x': 1, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 80},
                             # hovermode='closest'
@@ -167,6 +169,7 @@ app.layout = html.Div(className='container', children=[
         ]),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
+                html.H3('Total de Mortes na Bahia',className='text-center'),
                 dcc.Graph(
                     id='mortesBahia',
                     figure={
@@ -187,7 +190,7 @@ app.layout = html.Div(className='container', children=[
                                 'title': 'casos',
                                 'range': [0, df.query("state=='BA'")['deaths'].max()],
                             },
-                            title='Total de Mortes na Bahia',
+                            #title='Total de Mortes na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 80},
 
                             # hovermode='closest'
@@ -196,6 +199,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
+                html.H3('Taxa de Crescimento de Novas Mortes na Bahia',className='text-center'),
                 dcc.Graph(
                     id='taxaNovasMortesBahia',
                     figure={
@@ -229,7 +233,7 @@ app.layout = html.Div(className='container', children=[
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
                                 'range': [0, 50]
                             },
-                            title='Taxa de Crescimento de Novas Mortes na Bahia',
+                            #title='Taxa de Crescimento de Novas Mortes na Bahia',
                             legend={'x': 1, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 80},
                             # hovermode='closest'
@@ -240,7 +244,7 @@ app.layout = html.Div(className='container', children=[
         ]),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
-                html.H2('UTIs exclusivas para COVID19 na Bahia',
+                html.H3('UTIs exclusivas para COVID19 na Bahia',
                         className='text-center'),
                 html.P(
                     '''
@@ -249,6 +253,7 @@ app.layout = html.Div(className='container', children=[
                     Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
                 '''
                 ),
+                
                 dcc.Graph(
                     id='leitosUTIBahia',
                     figure={
@@ -298,6 +303,7 @@ app.layout = html.Div(className='container', children=[
         html.H2('Comparação Entre Estados do Brasil', className='text-center'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
+                html.H3('Média dos últimos 5 dias da Taxa de Novos Casos por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewCasesStates',
                     figure={
@@ -339,7 +345,7 @@ app.layout = html.Div(className='container', children=[
                                 'title': 'taxa (%)',
                                 #'range': [0, 50]
                             },
-                            title='Média dos Últimos 5 dias da Taxa de Novos Casos por Dia',
+                            #title='Média dos Últimos 5 dias da Taxa de Novos Casos por Dia',
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             # legend={'x': 0, 'y': 1},
                             #hovermode='closest',
@@ -349,6 +355,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
+                html.H3('Média dos últimos 5 dias da Taxa de Novas Mortes por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewDeathsStates',
                     figure={
@@ -385,7 +392,7 @@ app.layout = html.Div(className='container', children=[
                                 #'range': [0, 50]
                             },
                             margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
-                            title='Média Móvel de 5 dias da Taxa de Novas Mortes por Dia',
+                            #title='Média Móvel de 5 dias da Taxa de Novas Mortes por Dia',
                             # legend={'x': 0, 'y': 1},
                             #hovermode='closest'
                         )
@@ -395,6 +402,7 @@ app.layout = html.Div(className='container', children=[
         ]),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
+                html.H3('Mortes por 100k habitantes',className='text-center'),
                 dcc.Graph(
                     id='deaths_per_100k_inhabitants',
                     figure={
@@ -421,7 +429,7 @@ app.layout = html.Div(className='container', children=[
                             },
                             yaxis={'title': 'Mortes por 100k habitantes'},
                             margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
-                            title='Mortes por 100k habitantes',
+                            #title='Mortes por 100k habitantes',
                             # legend={'x': 0, 'y': 1},
                             #hovermode='closest'
                         )
