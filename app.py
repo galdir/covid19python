@@ -51,10 +51,13 @@ meta_tags=[
     {
       'name': 'viewport',
       'content': 'width=device-width, initial-scale=1, shrink-to-fit=no'
-    }
+    },
 ]
 
 )
+
+app.title='Monitoramento COVID19 na Bahia'
+
 server = app.server
 
 
