@@ -94,6 +94,24 @@ for s in states:
 #        'taxaNovosCasos': taxaNCbahia})
 # dfTaxaNCBahia.date=pd.to_datetime(dfTaxaNCBahia.date,format='%Y-%m-%d')
 
+updatemenus = list([
+    dict(active=1,
+         buttons=list([
+            dict(label='Log Scale',
+                 method='update',
+                 args=[{'visible': [True, True]},
+                       {'title': 'Log scale',
+                        'yaxis': {'type': 'log'}}]),
+            dict(label='Linear Scale',
+                 method='update',
+                 args=[{'visible': [True, False]},
+                       {'title': 'Linear scale',
+                        'yaxis': {'type': 'linear'}}])
+            ]),
+        )
+    ])
+
+
 df["rateNewDeaths"] = (df.newDeaths/df.deaths)*100
 df["rateNewCases"] = (df.newCases/df.totalCases)*100
 
@@ -117,18 +135,23 @@ app.layout = html.Div(className='container', children=[
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 y=df[df['state'] == 'BA']['totalCases'],
-                                name='BA'
+                                name='BA',
+                                
                             )
                         ],
                         'layout': dict(
                             xaxis={'type': 'line', 'title': 'data'},
                             yaxis={
                                 'title': 'casos',
-                                'range': [0, df.query("state=='BA'")['totalCases'].max()],
+                                #'range': [0, df.query("state=='BA'")['totalCases'].max()],
+                                #'type':'log'
                             },
                             #title='Total de Casos na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 40},
-                            hovermode='closest'
+                            hovermode='closest',
+                            updatemenus=updatemenus
+                            
+
                         )
                     }
                 )
@@ -184,7 +207,7 @@ app.layout = html.Div(className='container', children=[
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 y=df[df['state'] == 'BA']['deaths'],
-                                name='BA'
+                                name='BA',
                             )
                         ],
                         'layout': dict(
@@ -199,8 +222,8 @@ app.layout = html.Div(className='container', children=[
                             },
                             #title='Total de Mortes na Bahia',
                             margin={'l':40,'b':80,'r':40,'t': 40},
-
-                            hovermode='closest'
+                            hovermode='closest',
+                            updatemenus=updatemenus
                         )
                     }
                 )
