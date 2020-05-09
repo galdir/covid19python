@@ -67,7 +67,8 @@ df = pd.read_csv(
 # date,country,state,city,newDeaths,deaths,newCases,totalCases,deathsMS,totalCasesMS,deaths_per_100k_inhabitants,totalCases_per_100k_inhabitants,deaths_by_totalCases,recovered
 
 dfLeitosBahia = pd.read_csv(
-    'leitos-exclusivos-covid-ba.csv')
+    #'leitos-exclusivos-covid-ba.csv')
+    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ba.csv')
 
 dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 
