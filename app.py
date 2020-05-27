@@ -128,6 +128,60 @@ app.layout = html.Div(className='container', children=[
         html.H2('Casos na Bahia', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
+                html.H3('UTIs exclusivas para COVID19 na Bahia',
+                        className='text-center'),
+                html.P(
+                    '''
+                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
+                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
+                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
+                '''
+                ),
+                
+                dcc.Graph(
+                    id='leitosUTIBahia',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfLeitosBahia['data'],
+                                y=dfLeitosBahia['uti ocupadas'],
+                                name='UTIs ocupadas'
+                            ),
+                            dict(
+                                x=dfLeitosBahia['data'],
+                                y=dfLeitosBahia['utis totais'],
+                                name='UTIs totais'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={
+                                'type': 'line',
+                                'title': 'data',
+                                # 'range':[umMesAtras,today]
+                            },
+                            yaxis={
+                                'title': 'UTIs',
+                                # 'range': [0, df.query("state=='BA'")['deaths'].max()],
+                            },
+                            #margin={'t': 20},
+                            #legend={'x': 0, 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'center', 'yanchor':'center','y': 0.5},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            #title='UTIs exclusivas para COVID19 na Bahia',
+
+                            hovermode='closest'
+                        )
+                    }
+                )
+            ]),
+
+        ]),
+
+
+
+    ]),
+        html.Div(className='row', children=[
+            html.Div(className='col-sm', children=[
                 html.H3('Total de Casos na Bahia',className='text-center'),
                 dcc.Graph(
                     id='casosBahia',
@@ -274,60 +328,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ])
         ]),
-        html.Div(className='row', children=[
-            html.Div(className='col-sm', children=[
-                html.H3('UTIs exclusivas para COVID19 na Bahia',
-                        className='text-center'),
-                html.P(
-                    '''
-                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
-                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
-                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
-                '''
-                ),
-                
-                dcc.Graph(
-                    id='leitosUTIBahia',
-                    figure={
-                        'data': [
-                            dict(
-                                x=dfLeitosBahia['data'],
-                                y=dfLeitosBahia['uti ocupadas'],
-                                name='UTIs ocupadas'
-                            ),
-                            dict(
-                                x=dfLeitosBahia['data'],
-                                y=dfLeitosBahia['utis totais'],
-                                name='UTIs totais'
-                            )
-                        ],
-                        'layout': dict(
-                            xaxis={
-                                'type': 'line',
-                                'title': 'data',
-                                # 'range':[umMesAtras,today]
-                            },
-                            yaxis={
-                                'title': 'UTIs',
-                                # 'range': [0, df.query("state=='BA'")['deaths'].max()],
-                            },
-                            #margin={'t': 20},
-                            #legend={'x': 0, 'y': 1},
-                            legend={'x': 0.5, 'xanchor': 'center', 'yanchor':'center','y': 0.5},
-                            margin={'l':40,'b':80,'r':40,'t': 40},
-                            #title='UTIs exclusivas para COVID19 na Bahia',
-
-                            hovermode='closest'
-                        )
-                    }
-                )
-            ]),
-
-        ]),
-
-
-
-    ]),
+        
     html.Div(className='container', children=[
         html.H2('Casos em Salvador', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
