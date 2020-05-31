@@ -120,7 +120,11 @@ dfCities["rateNewCases"]=(dfCities.newCases/dfCities.totalCases)*100
 dfCities["rateNewDeaths"]=(dfCities.newDeaths/dfCities.deaths)*100
 
 today = datetime.datetime.now()
-umMesAtras = datetime.datetime(today.year, today.month-1, today.day)
+dayMesAtras=today.day
+if(dayMesAtras>29):
+    dayMesAtras=29
+
+umMesAtras = datetime.datetime(today.year, today.month-1, dayMesAtras)
 
 app.layout = html.Div(className='container', children=[
     html.H1('Monitoramento de COVID19', className='text-center display-1'),
