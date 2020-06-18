@@ -113,16 +113,58 @@ updatemenus = list([
     ])
 
 
+citiesBahia = dfCities[dfCities['state'] == 'BA'].city.unique()
+citiesBahiaWithouSalvador=citiesBahia[citiesBahia!='Salvador/BA']
+
+#print(citiesBahiaWithouSalvador)
+
 df["rateNewDeaths"] = (df.newDeaths/df.deaths)*100
 df["rateNewCases"] = (df.newCases/df.totalCases)*100
 
 dfCities["rateNewCases"]=(dfCities.newCases/dfCities.totalCases)*100
 dfCities["rateNewDeaths"]=(dfCities.newDeaths/dfCities.deaths)*100
 
+# rateNewCasesBa=[]
+# for i in range(len(citiesBahia)):
+#     #rateNewCasesBa.append(dfCities[dfCities['city'] == citiesBahia[i]]['rateNewCases'].rolling(window=5).mean().tail(1).tolist()[0])
+#     rateNewCasesBa.append(dfCities[dfCities['city'] == citiesBahia[i]]['rateNewCases'].tail().mean().tolist()[0])
+
+# #rateNewCasesBa=list((dfCities[dfCities['city'] == i]['rateNewCases'].rolling(
+# #    window=5).mean().tail(1)
+# #    ) for i in citiesBahia)
+
+# dfRateNewCasesBa=pd.DataFrame(rateNewCasesBa)
+
+# #rateNewCasesBa=sum(rateNewCasesBa)/len(rateNewCasesBa)
+
+# print('velocidade de novos casos na bahia')
+# print(dfRateNewCasesBa.mean())
+
+
+# rateNewCasesBaWithoutSalvador=[]
+# for i in range(len(citiesBahiaWithouSalvador)):
+#     rateNewCasesBaWithoutSalvador.append(dfCities[dfCities['city'] == citiesBahiaWithouSalvador[i]]['rateNewCases'].rolling(window=5).mean().tail(1).tolist()[0])
+
+
+# dfRateNewCasesBaWithoutSalvador=pd.DataFrame(rateNewCasesBaWithoutSalvador)
+# print('velocidade de novos casos na bahia sem salvador')
+# print(dfRateNewCasesBaWithoutSalvador.mean())
+
+# rateNewCasesSalvador=[]
+# rateNewCasesSalvador.append(dfCities[dfCities['city'] == 'Salvador/BA']['rateNewCases'].rolling(window=5).mean().tail(1).tolist()[0])
+
+
+# dfrateNewCasesSalvador=pd.DataFrame(rateNewCasesSalvador)
+# print('velocidade de novos casos em salvador')
+# print(dfrateNewCasesSalvador.mean())
+
+
+#print(rateNewCasesBaWithoutSalvador)
+
 today = datetime.datetime.now()
 dayMesAtras=today.day
-if(dayMesAtras>29):
-    dayMesAtras=29
+if(dayMesAtras>28):
+    dayMesAtras=28
 
 umMesAtras = datetime.datetime(today.year, today.month-1, dayMesAtras)
 
