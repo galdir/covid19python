@@ -167,6 +167,7 @@ if(dayMesAtras>28):
     dayMesAtras=28
 
 umMesAtras = datetime.datetime(today.year, today.month-1, dayMesAtras)
+doisMesesAtras = datetime.datetime(today.year, today.month-2, dayMesAtras)
 
 app.layout = html.Div(className='container', children=[
     html.H1('Monitoramento de COVID19', className='text-center display-1'),
@@ -258,39 +259,40 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Taxa de Crescimento de Novos Casos na Bahia',className='text-center'),
+                html.H3('Novos Casos na Bahia',className='text-center'),
                 dcc.Graph(
-                    id='taxaNovosCasosBahia',
+                    id='novosCasosBahia',
                     figure={
                         'data': [
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 # newCases is collumn 6
 
-                                y=df[df['state'] == 'BA']['rateNewCases'],
-                                name='Taxa de Novos Casos',
+                                y=df[df['state'] == 'BA']['newCases'],
+                                name='Novos casos',
                                 type='bar'
                             ),
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 # newCases is collumn 6
 
-                                y=df[df['state'] == 'BA']['rateNewCases'].rolling(
-                                    window=5).mean(),
-                                name='Média Movel de 5 Dias',
+                                y=df[df['state'] == 'BA']['newCases'].rolling(
+                                    window=7).mean(),
+                                name='Média Movel de 7 Dias',
                                 type='line'
                             )
                         ],
                         'layout': dict(
-                            xaxis={'type': 'line', 'title': 'data',
-                                   'range': [umMesAtras, today]},
+                            xaxis={'type': 'line', 'title': 'data'
+                                   #'range': [umMesAtras, today]
+                                   },
                             yaxis={
-                                'title': 'taxa (%)',
+                                'title': 'Quantidade'
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
@@ -298,6 +300,55 @@ app.layout = html.Div(className='container', children=[
                 )
             ])
         ]),
+
+
+        # html.Div(className='row', children=[
+        #     html.Div(className='col-sm', children=[
+        #         html.H3('Taxa de Crescimento de Novos Casos na Bahia',className='text-center'),
+        #         dcc.Graph(
+        #             id='taxaNovosCasosBahia',
+        #             figure={
+        #                 'data': [
+        #                     dict(
+        #                         x=df[df['state'] == 'BA']['date'],
+        #                         # newCases is collumn 6
+
+        #                         y=df[df['state'] == 'BA']['rateNewCases'],
+        #                         name='Novos Casos',
+        #                         type='bar'
+        #                     ),
+        #                     dict(
+        #                         x=df[df['state'] == 'BA']['date'],
+        #                         # newCases is collumn 6
+
+        #                         y=df[df['state'] == 'BA']['rateNewCases'].rolling(
+        #                             window=7).mean(),
+        #                         name='Média Movel de 7 Dias',
+        #                         type='line'
+        #                     )
+        #                 ],
+        #                 'layout': dict(
+        #                     xaxis={
+        #                         'type': 'line',
+        #                         'title': 'data',
+        #                         'range': [doisMesesAtras, today]
+        #                     },
+        #                     yaxis={
+        #                         'title': 'taxa (%)',
+        #                         # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
+        #                         'range': [0, 50]
+        #                     },
+        #                     #title='Taxa de Crescimento de Novas Mortes na Bahia',
+        #                     #legend={'x': 1, 'xanchor': 'center', 'yanchor':'top', 'y': 0.5},
+        #                     legend={'x': 1, 'xanchor': 'right', 'y': 1},
+        #                     margin={'l':40,'b':80,'r':40,'t': 40},
+        #                     hovermode='closest'
+        #                 )
+        #             }
+        #         )
+        #     ])
+        # ]),
+
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
                 html.H3('Total de Mortes na Bahia',className='text-center'),
@@ -330,43 +381,43 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Taxa de Crescimento de Novas Mortes na Bahia',className='text-center'),
+                html.H3('Novas Mortes na Bahia',className='text-center'),
                 dcc.Graph(
-                    id='taxaNovasMortesBahia',
+                    id='novasMortesBahia',
                     figure={
                         'data': [
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 # newCases is collumn 6
 
-                                y=df[df['state'] == 'BA']['rateNewDeaths'],
-                                name='Taxa de Novas Mortes',
+                                y=df[df['state'] == 'BA']['newDeaths'],
+                                name='Novas Mortes',
                                 type='bar'
                             ),
                             dict(
                                 x=df[df['state'] == 'BA']['date'],
                                 # newCases is collumn 6
 
-                                y=df[df['state'] == 'BA']['rateNewDeaths'].rolling(
-                                    window=5).mean(),
-                                name='Média Movel de 5 Dias',
+                                y=df[df['state'] == 'BA']['newDeaths'].rolling(
+                                    window=7).mean(),
+                                name='Média Movel de 7 Dias',
                                 type='line'
                             )
                         ],
                         'layout': dict(
                             xaxis={
                                 'type': 'line',
-                                'title': 'data',
-                                'range': [umMesAtras, today]
+                                'title': 'data'
+                                #'range': [umMesAtras, today]
                             },
                             yaxis={
-                                'title': 'taxa (%)',
+                                'title': 'Quantidade'
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novas Mortes na Bahia',
                             #legend={'x': 1, 'xanchor': 'center', 'yanchor':'top', 'y': 0.5},
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
@@ -374,6 +425,12 @@ app.layout = html.Div(className='container', children=[
                 )
             ])
         ]),
+
+        
+
+
+
+
         
     html.Div(className='container', children=[
         html.H2('Casos em Salvador', className='text-center bg-secondary text-white display-3'),
@@ -404,39 +461,40 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Taxa de Crescimento de Novos Casos em Salvador',className='text-center'),
+                html.H3('Novos Casos em Salvador',className='text-center'),
                 dcc.Graph(
-                    id='rateNewCasesSalvador',
+                    id='newCasesSalvador',
                     figure={
                         'data': [
                             dict(
                                 x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
                                 # newCases is collumn 6
 
-                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewCases'],
-                                name='Taxa de Novos Casos',
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['newCases'],
+                                name='Novos Casos',
                                 type='bar'
                             ),
                             dict(
                                 x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
                                 # newCases is collumn 6
 
-                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewCases'].rolling(
-                                    window=5).mean(),
-                                name='Média Movel de 5 Dias',
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['newCases'].rolling(
+                                    window=7).mean(),
+                                name='Média Movel de 7 Dias',
                                 type='line'
                             )
                         ],
                         'layout': dict(
-                            xaxis={'type': 'line', 'title': 'data',
-                                   'range': [umMesAtras, today]},
+                            xaxis={'type': 'line', 'title': 'data'
+                                   #'range': [umMesAtras, today]
+                                   },
                             yaxis={
-                                'title': 'taxa (%)',
+                                'title': 'Quantidade'
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
@@ -471,39 +529,40 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Taxa de Crescimento de Novas Mortes em Salvador',className='text-center'),
+                html.H3('Novas Mortes em Salvador',className='text-center'),
                 dcc.Graph(
-                    id='rateNewDeathsSalvador',
+                    id='newDeathsSalvador',
                     figure={
                         'data': [
                             dict(
                                 x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
                                 # newCases is collumn 6
 
-                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewDeaths'],
-                                name='Taxa de Novos Casos',
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['newDeaths'],
+                                name='Novas Mortes',
                                 type='bar'
                             ),
                             dict(
                                 x=dfCities[dfCities['city'] == 'Salvador/BA']['date'],
                                 # newCases is collumn 6
 
-                                y=dfCities[dfCities['city'] == 'Salvador/BA']['rateNewDeaths'].rolling(
-                                    window=5).mean(),
-                                name='Média Movel de 5 Dias',
+                                y=dfCities[dfCities['city'] == 'Salvador/BA']['newDeaths'].rolling(
+                                    window=7).mean(),
+                                name='Média Movel de 7 Dias',
                                 type='line'
                             )
                         ],
                         'layout': dict(
-                            xaxis={'type': 'line', 'title': 'data',
-                                   'range': [umMesAtras, today]},
+                            xaxis={'type': 'line', 'title': 'data'
+                                   #'range': [umMesAtras, today]
+                                   },
                             yaxis={
-                                'title': 'taxa (%)',
+                                'title': 'Quantidade',
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
                                 'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
-                            legend={'x': 1, 'xanchor': 'right', 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'right', 'y': 1},
                             margin={'l':40,'b':80,'r':40,'t': 40},
                             hovermode='closest'
                         )
@@ -519,7 +578,7 @@ app.layout = html.Div(className='container', children=[
         html.H2('Comparação Entre Estados do Brasil', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
-                html.H3('Média dos últimos 5 dias da Taxa de Novos Casos por Dia',className='text-center'),
+                html.H3('Média dos últimos 7 dias da Taxa de Novos Casos por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewCasesStates',
                     figure={
@@ -529,7 +588,7 @@ app.layout = html.Div(className='container', children=[
                                 y=[
                                     (
                                         df[df['state'] == i]['rateNewCases'].rolling(
-                                            window=5).mean().tail(1).tolist()[0]
+                                            window=7).mean().tail(1).tolist()[0]
                                     ) for i in statesClean
                                 ],
                                 type='bar',
@@ -571,7 +630,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Média dos últimos 5 dias da Taxa de Novas Mortes por Dia',className='text-center'),
+                html.H3('Média dos últimos 7 dias da Taxa de Novas Mortes por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewDeathsStates',
                     figure={
@@ -582,7 +641,7 @@ app.layout = html.Div(className='container', children=[
                                 y=[
                                     (
                                         df[df['state'] == i]['rateNewDeaths'].rolling(
-                                            window=5).mean().tail(1).tolist()[0]
+                                            window=7).mean().tail(1).tolist()[0]
                                     ) for i in statesClean
                                 ],
                                 type='bar',
