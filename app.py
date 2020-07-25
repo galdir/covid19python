@@ -203,8 +203,7 @@ app.layout = html.Div(className='container', children=[
                         className='text-center'),
                 html.P(
                     '''
-                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
-                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
+                    Números divulgados Secretaria de Saúde da Bahia (SESAB). 
                     Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
                 '''
                 ),
@@ -466,9 +465,8 @@ app.layout = html.Div(className='container', children=[
                         className='text-center'),
                 html.P(
                     '''
-                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
-                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
-                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
+                    Números divulgados Secretaria de Saúde da Bahia (SESAB). 
+                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito. 
                 '''
                 ),
                 
