@@ -70,6 +70,11 @@ dfLeitosBahia = pd.read_csv(
     #'leitos-exclusivos-covid-ba.csv')
     'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ba.csv')
 
+
+dfLeitosSalvador = pd.read_csv(
+    #'leitos-exclusivos-covid-ba.csv')
+    'leitos-exclusivos-covid-ssa.csv')
+
 dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 
 # df=df.drop(df[df.date=='2020-04-29'].index)
@@ -113,16 +118,16 @@ updatemenus = list([
     ])
 
 
-citiesBahia = dfCities[dfCities['state'] == 'BA'].city.unique()
-citiesBahiaWithouSalvador=citiesBahia[citiesBahia!='Salvador/BA']
+#citiesBahia = dfCities[dfCities['state'] == 'BA'].city.unique()
+#citiesBahiaWithouSalvador=citiesBahia[citiesBahia!='Salvador/BA']
 
 #print(citiesBahiaWithouSalvador)
 
 df["rateNewDeaths"] = (df.newDeaths/df.deaths)*100
 df["rateNewCases"] = (df.newCases/df.totalCases)*100
 
-dfCities["rateNewCases"]=(dfCities.newCases/dfCities.totalCases)*100
-dfCities["rateNewDeaths"]=(dfCities.newDeaths/dfCities.deaths)*100
+#dfCities["rateNewCases"]=(dfCities.newCases/dfCities.totalCases)*100
+#dfCities["rateNewDeaths"]=(dfCities.newDeaths/dfCities.deaths)*100
 
 # rateNewCasesBa=[]
 # for i in range(len(citiesBahia)):
@@ -175,7 +180,7 @@ app.layout = html.Div(className='container', children=[
         html.H2('Casos na Bahia', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
-                html.H3('UTIs exclusivas para COVID19 na Bahia',
+                html.H3('UTIs Adulto exclusivas para COVID19 na Bahia',
                         className='text-center'),
                 html.P(
                     '''
@@ -434,6 +439,58 @@ app.layout = html.Div(className='container', children=[
         
     html.Div(className='container', children=[
         html.H2('Casos em Salvador', className='text-center bg-secondary text-white display-3'),
+
+        html.Div(className='row', children=[
+            html.Div(className='col-sm', children=[
+                html.H3('UTIs Adulto exclusivas para COVID19 em Salvador',
+                        className='text-center'),
+                html.P(
+                    '''
+                    Esses números são divulgados quase que diariamente pela Secretaria de Saúde da Bahia (SESAB) por seus boletins. 
+                    Quando o número não foi divulgado, o número anterior foi repetido aqui. 
+                    Segundo a SESAB o número de leitos é flutuante, representando o quantitativo exato de vagas disponíveis no dia. Intercorrências com equipamentos, rede de gases ou equipes incompletas, por exemplo, inviabilizam a disponibilidade do leito.
+                '''
+                ),
+                
+                dcc.Graph(
+                    id='leitosUTISsa',
+                    figure={
+                        'data': [
+                            dict(
+                                x=dfLeitosSalvador['data'],
+                                y=dfLeitosSalvador['uti ocupadas'],
+                                name='UTIs ocupadas'
+                            ),
+                            dict(
+                                x=dfLeitosSalvador['data'],
+                                y=dfLeitosSalvador['utis totais'],
+                                name='UTIs totais'
+                            )
+                        ],
+                        'layout': dict(
+                            xaxis={
+                                'type': 'line',
+                                'title': 'data',
+                                # 'range':[umMesAtras,today]
+                            },
+                            yaxis={
+                                'title': 'UTIs',
+                                # 'range': [0, df.query("state=='BA'")['deaths'].max()],
+                            },
+                            #margin={'t': 20},
+                            #legend={'x': 0, 'y': 1},
+                            legend={'x': 0.5, 'xanchor': 'center', 'yanchor':'center','y': 0.5},
+                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            #title='UTIs exclusivas para COVID19 na Bahia',
+
+                            hovermode='closest'
+                        )
+                    }
+                )
+            ]),
+
+        ]),
+
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
                 html.H3('Total de casos em Salvador',className='text-center'),
@@ -578,7 +635,7 @@ app.layout = html.Div(className='container', children=[
         html.H2('Comparação Entre Estados do Brasil', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
             html.Div(className='col-sm', children=[
-                html.H3('Média dos últimos 7 dias da Taxa de Novos Casos por Dia',className='text-center'),
+                html.H3('Média dos últimos 7 dias da Velocidade de Crescimento de Novos Casos por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewCasesStates',
                     figure={
@@ -630,7 +687,7 @@ app.layout = html.Div(className='container', children=[
                 )
             ]),
             html.Div(className='col-sm', children=[
-                html.H3('Média dos últimos 7 dias da Taxa de Novas Mortes por Dia',className='text-center'),
+                html.H3('Média dos últimos 7 dias da Velocidade de Crescimento de Novas Mortes por Dia',className='text-center'),
                 dcc.Graph(
                     id='rateNewDeathsStates',
                     figure={
