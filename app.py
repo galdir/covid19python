@@ -8,6 +8,8 @@ import dash_html_components as html
 import pandas as pd
 import numpy as np
 import datetime
+import plotly.express as px
+
 
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -196,14 +198,15 @@ app.layout = html.Div(className='container', children=[
                         'data': [
                             dict(
                                 x=dfLeitosBahia['data'],
-                                y=dfLeitosBahia['uti ocupadas'],
-                                name='UTIs ocupadas'
+                                y=dfLeitosBahia['utis totais'],
+                                name='UTIs totais'
                             ),
                             dict(
                                 x=dfLeitosBahia['data'],
-                                y=dfLeitosBahia['utis totais'],
-                                name='UTIs totais'
+                                y=dfLeitosBahia['uti ocupadas'],
+                                name='UTIs ocupadas'
                             )
+                            
                         ],
                         'layout': dict(
                             xaxis={
@@ -458,14 +461,15 @@ app.layout = html.Div(className='container', children=[
                         'data': [
                             dict(
                                 x=dfLeitosSalvador['data'],
-                                y=dfLeitosSalvador['uti ocupadas'],
-                                name='UTIs ocupadas'
+                                y=dfLeitosSalvador['utis totais'],
+                                name='UTIs totais'
                             ),
                             dict(
                                 x=dfLeitosSalvador['data'],
-                                y=dfLeitosSalvador['utis totais'],
-                                name='UTIs totais'
+                                y=dfLeitosSalvador['uti ocupadas'],
+                                name='UTIs ocupadas'
                             )
+                            
                         ],
                         'layout': dict(
                             xaxis={
@@ -630,7 +634,6 @@ app.layout = html.Div(className='container', children=[
     ]),
 
 
-
     html.Div(className='container', children=[
         html.H2('Comparação Entre Estados do Brasil', className='text-center bg-secondary text-white display-3'),
         html.Div(className='row', children=[
@@ -651,21 +654,6 @@ app.layout = html.Div(className='container', children=[
                                 type='bar',
                                 name='taxa dos estados'
                             )
-
-                            # dict(
-                            # x=df[df['continent'] == i]['gdp per capita'],
-                            #x=df[df['state'] == i]['date'],
-                            # y=df[df['state'] == i]['rateNewCases'].rolling(
-                            #    window=5).mean(),
-                            # text=df[df['state'] == i]['state'],
-                            # mode='markers',
-                            # opacity=0.7,
-                            # marker={
-                            #    'size': 15,
-                            #    'line': {'width': 0.5, 'color': 'white'}
-                            # },
-                            # name=i
-                            # ) for i in statesClean
                         ],
                         'layout': dict(
                             xaxis={
@@ -681,7 +669,7 @@ app.layout = html.Div(className='container', children=[
                             # margin={'l': 40, 'b': 40, 't': 40, 'r': 40},
                             # legend={'x': 0, 'y': 1},
                             hovermode='closest',
-                            margin={'l':40,'b':80,'r':40,'t': 40},
+                            margin={'l':40,'b':80,'r':40,'t': 40}
                         )
                     }
                 )
