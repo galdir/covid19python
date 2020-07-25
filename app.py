@@ -176,6 +176,23 @@ if(dayMesAtras>28):
 umMesAtras = datetime.datetime(today.year, today.month-1, dayMesAtras)
 doisMesesAtras = datetime.datetime(today.year, today.month-2, dayMesAtras)
 
+
+#x=statesClean,
+#y=[
+#    (
+#        df[df['state'] == i]['rateNewCases'].rolling(
+#            window=7).mean().tail(1).tolist()[0]
+#    ) for i in statesClean
+#]
+
+#fig = px.bar(x=statesClean, 
+#y=[(
+#        df[df['state'] == i]['rateNewCases'].rolling(
+#            window=7).mean().tail(1).tolist()[0]
+#    ) for i in statesClean
+#], 
+#color=y)
+
 app.layout = html.Div(className='container', children=[
     html.H1('Monitoramento de COVID19', className='text-center display-1'),
     html.Div(className='container', children=[
@@ -211,7 +228,7 @@ app.layout = html.Div(className='container', children=[
                         'layout': dict(
                             xaxis={
                                 'type': 'line',
-                                'title': 'data',
+                                'title': 'data'
                                 # 'range':[umMesAtras,today]
                             },
                             yaxis={
