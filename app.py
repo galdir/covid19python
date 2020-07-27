@@ -75,7 +75,7 @@ dfLeitosBahia = pd.read_csv(
 
 dfLeitosSalvador = pd.read_csv(
     #'leitos-exclusivos-covid-ba.csv')
-    'https://raw.githubusercontent.com/wcota/covid19br/master/leitos-exclusivos-covid-ssa.csv')
+    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ssa.csv')
 
 dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 
