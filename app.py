@@ -17,7 +17,7 @@ import plotly.express as px
 
 # external CSS stylesheets
 external_stylesheets = [
-    'https://raw.githubusercontent.com/galdir/covid19python/master/bWLwgP.css',
+    'https://codepen.io/chriddyp/pen/bWLwgP.css',
     {
         'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
         'rel': 'stylesheet',
