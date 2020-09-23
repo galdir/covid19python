@@ -29,4 +29,4 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ---
 
-Feito por [Rafael Nunes.](https://github.com/rafaelnpf)
+Projeto e implementação por [Galdir Reges.](https://github.com/galdir) com apoio no README por [Rafael Nunes.](https://github.com/rafaelnpf)
