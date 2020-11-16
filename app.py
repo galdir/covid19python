@@ -86,7 +86,7 @@ states = df.state.unique()
 statesClean = []
 for s in states:
     if s != 'TOTAL':
-        statesClean.ap
+        statesClean.append(s)
 
 # df.drop
 
