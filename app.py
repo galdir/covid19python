@@ -13,6 +13,9 @@ import io
 import json
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
+from urllib import request, parse
+from io import StringIO
+
 
 
 
@@ -63,6 +66,7 @@ class BrasilIO:
         request = Request(url, headers=self.headers)
         response = urlopen(request)
         return response
+
 
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -127,9 +131,22 @@ dfLeitosBahia = pd.read_csv(
     'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ba.csv')
 
 
-dfLeitosSalvador = pd.read_csv(
+#dfLeitosSalvador = pd.read_csv(
     #'leitos-exclusivos-covid-ba.csv')
-    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ssa.csv')
+#    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ssa.csv')
+
+
+urlSecretariaSaudeSalvador='http://www.saude.salvador.ba.gov.br/wp-content/graficos/graficosjson.php'
+dataRequest={"tipo": "leitosUTIDisponiveisOcupadosAdulto"}
+dataRequest = parse.urlencode(dataRequest).encode()
+req =  request.Request(urlSecretariaSaudeSalvador, data=dataRequest) # this will make the method "POST"
+resp=request.urlopen(req)
+with resp as f:
+    texto=f.read().decode('utf-8')
+    csv=StringIO(texto)
+    dfLeitosSalvador = pd.read_csv(csv) 
+
+dfLeitosSalvador.columns=['data','utis totais','utis ocupadas']
 
 #dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 #dfCities=pd.read_csv('https://data.brasil.io/dataset/covid19/caso_full.csv.gz')
@@ -153,6 +170,13 @@ statesClean = []
 for s in states:
     if s != 'TOTAL':
         statesClean.append(s)
+
+
+
+
+
+
+
 
 # df.drop
 
@@ -548,7 +572,7 @@ app.layout = html.Div(className='container', children=[
                             ),
                             dict(
                                 x=dfLeitosSalvador['data'],
-                                y=dfLeitosSalvador['uti ocupadas'],
+                                y=dfLeitosSalvador['utis ocupadas'],
                                 name='UTIs ocupadas'
                             )
                             
