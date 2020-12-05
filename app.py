@@ -148,6 +148,13 @@ with resp as f:
 
 dfLeitosSalvador.columns=['data','utis totais','utis ocupadas']
 
+
+for index in dfLeitosSalvador.index:
+  texto=dfLeitosSalvador.loc[index,'data']
+  texto=texto.replace('/','-')
+  dfLeitosSalvador.loc[index,'data']=datetime.datetime.strptime(texto, '%d-%m-%Y').strftime('%Y-%m-%d')
+
+
 #dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 #dfCities=pd.read_csv('https://data.brasil.io/dataset/covid19/caso_full.csv.gz')
 
