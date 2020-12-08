@@ -653,7 +653,7 @@ app.layout = html.Div(className='container', children=[
                                 # newCases is collumn 6
 
                                 y=dfCities[dfCities['city'] == 'Salvador']['new_confirmed'].rolling(
-                                    window=7).mean(),
+                                    window=7).mean().shift(-6),
                                 name='Média Movel de 7 Dias',
                                 type='line'
                             )
@@ -721,7 +721,7 @@ app.layout = html.Div(className='container', children=[
                                 # newCases is collumn 6
 
                                 y=dfCities[dfCities['city'] == 'Salvador']['new_deaths'].rolling(
-                                    window=7).mean(),
+                                    window=7).mean().shift(-6),
                                 name='Média Movel de 7 Dias',
                                 type='line'
                             )
