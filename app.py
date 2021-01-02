@@ -270,9 +270,15 @@ today = datetime.datetime.now()
 dayMesAtras=today.day
 if(dayMesAtras>28):
     dayMesAtras=28
-
-umMesAtras = datetime.datetime(today.year, today.month-1, dayMesAtras)
-doisMesesAtras = datetime.datetime(today.year, today.month-2, dayMesAtras)
+if(today.month==1):
+    mesAtras=12
+    anoMesAtras=today.year-1
+else:
+    mesAtras=today.month-1
+    anoMesAtras=today.year
+    
+umMesAtras = datetime.datetime(anoMesAtras, mesAtras, dayMesAtras)
+#doisMesesAtras = datetime.datetime(today.year, today.month-2, dayMesAtras)
 
 
 #x=statesClean,
