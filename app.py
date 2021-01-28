@@ -131,29 +131,36 @@ dfLeitosBahia = pd.read_csv(
     'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ba.csv')
 
 
-#dfLeitosSalvador = pd.read_csv(
+
+
+
+try:
+    urlSecretariaSaudeSalvador='http://www.saude.salvador.ba.gov.br/wp-content/graficos/graficosjson.php'
+    dataRequest={"tipo": "leitosUTIDisponiveisOcupadosAdulto"}
+    dataRequest = parse.urlencode(dataRequest).encode()
+    req =  request.Request(urlSecretariaSaudeSalvador, data=dataRequest) # this will make the method "POST"
+    resp=request.urlopen(req)
+    with resp as f:
+        texto=f.read().decode('utf-8')
+        csv=StringIO(texto)
+        dfLeitosSalvador = pd.read_csv(csv) 
+
+    dfLeitosSalvador.columns=['data','utis totais','utis ocupadas']
+
+
+    for index in dfLeitosSalvador.index:
+        texto=dfLeitosSalvador.loc[index,'data']
+        texto=texto.replace('/','-')
+        dfLeitosSalvador.loc[index,'data']=datetime.datetime.strptime(texto, '%d-%m-%Y').strftime('%Y-%m-%d')
+except:
+    print("ocorreu um erro ao acessar Secretaria de Saude Salvador")
+    dfLeitosSalvador = pd.read_csv(
     #'leitos-exclusivos-covid-ba.csv')
-#    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ssa.csv')
+    'https://raw.githubusercontent.com/galdir/covid19python/master/leitos-exclusivos-covid-ssa.csv')
+    dfLeitosSalvador.columns=['data','leitos ocupados (uti+geral)','leitos totais (uti+geral)','utis ocupadas','utis totais','','']
 
 
-urlSecretariaSaudeSalvador='http://www.saude.salvador.ba.gov.br/wp-content/graficos/graficosjson.php'
-dataRequest={"tipo": "leitosUTIDisponiveisOcupadosAdulto"}
-dataRequest = parse.urlencode(dataRequest).encode()
-req =  request.Request(urlSecretariaSaudeSalvador, data=dataRequest) # this will make the method "POST"
-resp=request.urlopen(req)
-with resp as f:
-    texto=f.read().decode('utf-8')
-    csv=StringIO(texto)
-    dfLeitosSalvador = pd.read_csv(csv) 
-
-dfLeitosSalvador.columns=['data','utis totais','utis ocupadas']
-
-
-for index in dfLeitosSalvador.index:
-  texto=dfLeitosSalvador.loc[index,'data']
-  texto=texto.replace('/','-')
-  dfLeitosSalvador.loc[index,'data']=datetime.datetime.strptime(texto, '%d-%m-%Y').strftime('%Y-%m-%d')
-
+dfLeitosSalvador.head()
 
 #dfCities=pd.read_csv('https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-cities-time.csv')
 #dfCities=pd.read_csv('https://data.brasil.io/dataset/covid19/caso_full.csv.gz')
