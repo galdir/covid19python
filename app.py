@@ -148,10 +148,18 @@ try:
     dfLeitosSalvador.columns=['data','utis totais','utis ocupadas']
 
 
-    for index in dfLeitosSalvador.index:
-        texto=dfLeitosSalvador.loc[index,'data']
+    for indexA in dfLeitosSalvador.index:
+        texto=dfLeitosSalvador.loc[indexA,'data']
         texto=texto.replace('/','-')
         dfLeitosSalvador.loc[index,'data']=datetime.datetime.strptime(texto, '%d-%m-%Y').strftime('%Y-%m-%d')
+        if (dfLeitosSalvador.loc[indexA,'data']==dfLeitosSalvador.loc[indexA-1,'data']):
+            if (dfLeitosSalvador.loc[indexA,'utis ocupadas']==0):
+                dfLeitosSalvador.drop(dfLeitosSalvador.index[indexA])
+            else:
+                dfLeitosSalvador.drop(dfLeitosSalvador.index[indexA-1])
+            #dfLeitosSalvador.loc[index,'utis totais']=dfLeitosSalvador.loc[index-1,'utis totais']
+            #dfLeitosSalvador.loc[index,'utis ocupadas']=dfLeitosSalvador.loc[index-1,'utis ocupadas']
+
 except:
     print("ocorreu um erro ao acessar Secretaria de Saude Salvador")
     dfLeitosSalvador = pd.read_csv(
