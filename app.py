@@ -152,10 +152,10 @@ try:
         texto=dfLeitosSalvador.loc[indexA,'data']
         texto=texto.replace('/','-')
         dfLeitosSalvador.loc[indexA,'data']=datetime.datetime.strptime(texto, '%d-%m-%Y').strftime('%Y-%m-%d')
-        #if dfLeitosSalvador.loc[indexA,'utis ocupadas']==0:
-        #    print("removendo linha de utis zeradas")
-        #    dfLeitosSalvador.drop([dfLeitosSalvador.index[indexA]])
-        #if (dfLeitosSalvador.loc[indexA,'data']==dfLeitosSalvador.loc[indexA-1,'data']):
+        if dfLeitosSalvador.loc[indexA,'utis ocupadas']==0:
+            print("removendo linha de utis zeradas")
+            dfLeitosSalvador.drop([dfLeitosSalvador.index[indexA]],inplace = True)
+        #if dfLeitosSalvador.loc[indexA,'data']==dfLeitosSalvador.loc[indexA-1,'data']:
         #    print("data duplicada nas utis de salvador")
         #    if (dfLeitosSalvador.loc[indexA,'utis ocupadas']==0):
         #        dfLeitosSalvador.drop(dfLeitosSalvador.index[indexA])
