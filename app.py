@@ -759,7 +759,7 @@ app.layout = html.Div(className='container', children=[
                             yaxis={
                                 'title': 'Quantidade',
                                 # 'range':[0,df.query("state=='BA'")['rateNewDeaths'].tail(31).max()]
-                                'range': [0, 50]
+                                #'range': [0, 50]
                             },
                             #title='Taxa de Crescimento de Novos Casos na Bahia',
                             legend={'x': 0.5, 'xanchor': 'right', 'y': 1},
